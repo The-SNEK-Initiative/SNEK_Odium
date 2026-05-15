@@ -18,6 +18,7 @@ Flags:
 Currently only 2 flags exist:
 - `--shard` shards the file
 - `--restr` restores a sharded file
+
 shrimple, really.
 
 Usage examples:
