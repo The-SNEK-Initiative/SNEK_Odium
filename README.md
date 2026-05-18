@@ -5,6 +5,13 @@ DISCLAIMER: Yes, this is to be compiled using gcc MSYS2 not MSVC.
 
 SNEK Odium is The SNEK Initiatives attempt at creating a "secure" file storage system. This is a alpha version so do not excpect too much from it for now, and obviously we are not liable to any file corruption or inproper restoration that might occur, so don't use it on anything important for now. We also would be EXTREMELY gratefull for any and all feedback.
 
+## Updates
+- Release version 1.0.1:
+    - added archive handling: .zip, .tar, .tar.gz, .rar, .7z
+    - added directory handling: now able to take a whole directory and shard it
+    - better navigation: left/right arrows now allow you to move through dirs
+    - safer file handling, allocation and I/O validation, fixed file scanning
+
 ## So what does this do?
 
 Odium takes a file and splits it into multiple encrypted fragments using a key based transformation and a "randomized" structure. It stores these fragments in generated directories along with a manifest that contains the information needed to rebuild the original file. The tool can later restore the original file from the shards when the correct key is provided.
@@ -18,7 +25,6 @@ Flags:
 Currently only 2 flags exist:
 - `--shard` shards the file
 - `--restr` restores a sharded file
-
 shrimple, really.
 
 Usage examples:
