@@ -3,14 +3,20 @@ This project is licensed under the SNEK Common Source License 2.0 (S-CSL-2.0), p
 
 DISCLAIMER: Yes, this is to be compiled using gcc MSYS2 not MSVC.
 
-SNEK Odium is The SNEK Initiatives attempt at creating a "secure" file storage system. This is a alpha version so do not excpect too much from it for now, and obviously we are not liable to any file corruption or inproper restoration that might occur, so don't use it on anything important for now. We also would be EXTREMELY gratefull for any and all feedback.
+SNEK Odium is The SNEK Initiatives attempt at creating a "secure" file storage system. This is now a beta version so you can finally excpect something from it, and obviously we are not liable to any file corruption or inproper restoration that might occur, so don't use it on anything important for now. We also would be EXTREMELY gratefull for any and all feedback.
 
 ## Updates
-- Release version 1.0.1:
-    - added archive handling: .zip, .tar, .tar.gz, .rar, .7z
-    - added directory handling: now able to take a whole directory and shard it
-    - better navigation: left/right arrows now allow you to move through dirs
-    - safer file handling, allocation and I/O validation, fixed file scanning
+- Release version 2.0.0:
+    - Logging system with 5 severity levels
+    - Configuration management with INI files
+    - File hashing, MD5 and SHA256, for integrity verification
+    - Compression, supports NONE/DEF/GZ/ZST/LZ
+    - Progress tracking and eta calculations
+    - Binary manifest database for tracking shards
+    - Batch file processing
+    - API improvements
+    - Archive support (tar, gz, zip, 7z, rar)
+    - TUI improvements
 
 ## So what does this do?
 
@@ -19,18 +25,35 @@ Odium takes a file and splits it into multiple encrypted fragments using a key b
 We recommend navigating the tool using th built in TUI we made but for those who prefer making their own ui:
 
 ## API
-The software also has a API surface you can use in your apps.
+The software has a CLI with the following commands:
 
-Flags:
-Currently only 2 flags exist:
-- `--shard` shards the file
-- `--restr` restores a sharded file
-shrimple, really.
+Main:
+- `--shard` shards the file with encryption key
+- `--restore` restores a sharded file using the key
+- `--verify` verifies file integrity (MD5/SHA256)
+- `--list` lists all manifest entries
+- `--batch-shard` batch shard multiple files
+- `--batch-restore` batch restore multiple shards
+- `--genkey` generates a random encryption key
+- `--info` shows system and config info
+- `--version` shows version info
+- `--help` shows this help message
+
+Options:
+- `--config` loads a configuration file
+- `--verbose` increases verbosity
+- `--threads` sets number of parallel threads
+- `--no-verify` skips verification
+- `--no-compress` disables compression
 
 Usage examples:
 ```sh
 odium --shard exam.txt 1234
-odium --restr eade07b853b2f23fg7dd24d7b5394e3d 1234
+odium --restore cry/shardid 1234 output.txt
+odium --verify output.txt
+odium --batch-shard 1234 --threads 4
+odium --list
+odium --genkey
 ```
 
 ## Compilation
@@ -38,7 +61,13 @@ odium --restr eade07b853b2f23fg7dd24d7b5394e3d 1234
 You can compile it using MSYS2 UCRT64 after installing gcc using the following command:
 
 ```sh
-gcc odium.c -o odium -s -O2
+gcc -Wall -std=c99 -O2 -o odium main.c utils.c archive.c crypto.c ui.c log.c cfg.c has.c cmp.c prg.c man.c bat.c cli.c
+```
+
+or just use the Makefile:
+
+```sh
+make
 ```
 
 we also recommend stripping it later:
